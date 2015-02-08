@@ -272,6 +272,15 @@ class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureRecognizerD
         // Set delegate for controller scroll view
         controllerScrollView.delegate = self
         
+        // Hsoi 2015-02-08 - This is an integration of https://github.com/uacaps/PageMenu/pull/15 which IMHO is a solid fix.
+        //
+        // When the user taps the status bar, the scroll view beneath the touch which is closest to the status bar will be scrolled to top,
+        // but only if its `scrollsToTop` property is YES, its delegate does not return NO from `shouldScrollViewScrollToTop`, and it is not already at the top.
+        // If more than one scroll view is found, none will be scrolled.
+        // Disable scrollsToTop for menu and controller scroll views so that iOS finds scroll views within our pages on status bar tap gesture.
+        menuScrollView.scrollsToTop = false;
+        controllerScrollView.scrollsToTop = false;
+
         // Configure menu scroll view
         if useMenuLikeSegmentedControl {
             menuScrollView.scrollEnabled = false
